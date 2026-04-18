@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rubasri R — AIML Engineer Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --border: rgba(140,120,255,0.15);
+    --accent: #8b5cf6;
+    --accent2: #06b6d4;
+    --accent3: #10b981;
+    --text: #f0eeff;
+    --muted: #8b8aaa;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(139,92,246,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139,92,246,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow2 {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+    bottom: 0;
+    left: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0 2.5rem;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 4rem;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .name-accent { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .hero-bio {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 2rem;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .contact-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .contact-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .avatar-box {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    border: 0.5px solid var(--border);
+    background: linear-gradient(135deg, #1a1a26 0%, #2a1f4a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: var(--mono);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .avatar-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(139,92,246,0.2), transparent);
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--border);
+  }
+
+  section { margin-bottom: 3.5rem; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .skill-chip {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .skill-chip:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .skill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .skill-dot.cyan { background: var(--accent2); }
+  .skill-dot.green { background: var(--accent3); }
+
+  .exp-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .exp-card:hover { border-color: rgba(139,92,246,0.4); }
+
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    border-radius: 2px 0 0 2px;
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .exp-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .exp-org {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-family: var(--mono);
+    margin-top: 3px;
+  }
+
+  .exp-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    padding: 4px 10px;
+    background: rgba(139,92,246,0.08);
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+  }
+
+  .exp-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    background: rgba(6,182,212,0.08);
+    border: 0.5px solid rgba(6,182,212,0.2);
+    border-radius: 6px;
+    padding: 3px 10px;
+  }
+
+  .edu-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .edu-card:hover { border-color: rgba(6,182,212,0.4); }
+
+  .edu-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(6,182,212,0.1);
+    border: 0.5px solid rgba(6,182,212,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .edu-degree {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .edu-field {
+    font-size: 0.85rem;
+    color: var(--accent2);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .edu-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+  }
+
+  .proj-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .proj-card:hover {
+    border-color: rgba(16,185,129,0.4);
+    transform: translateY(-2px);
+  }
+
+  .proj-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(16,185,129,0.1);
+    border: 0.5px solid rgba(16,185,129,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .proj-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .proj-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .proj-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .proj-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent3);
+    background: rgba(16,185,129,0.08);
+    border: 0.5px solid rgba(16,185,129,0.2);
+    border-radius: 5px;
+    padding: 2px 8px;
+  }
+
+  .hobbies-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .hobby-pill {
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .hobby-pill:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding-top: 2rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero { animation: fadeUp 0.5s ease both; }
+  section { animation: fadeUp 0.5s ease both; }
+  section:nth-of-type(2) { animation-delay: 0.05s; }
+  section:nth-of-type(3) { animation-delay: 0.1s; }
+  section:nth-of-type(4) { animation-delay: 0.15s; }
+  section:nth-of-type(5) { animation-delay: 0.2s; }
+  section:nth-of-type(6) { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="glow"></div>
+<div class="glow2"></div>
+
+<div class="wrapper">
+
+  <nav>
+    <span class="logo">RR.portfolio</span>
+    <ul class="nav-links">
+      <li><a href="#">About</a></li>
+      <li><a href="#">Skills</a></li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <p class="hero-tag">AI / ML Engineer</p>
+      <h1>Hi, I'm <span class="name-accent">Rubasri R</span></h1>
+      <p class="hero-sub">Aspiring Software Engineer · B.Tech AIML · Saveetha Engineering College</p>
+      <p class="hero-bio">
+        Building intelligent systems at the intersection of AI and software engineering.
+        Experienced in NLP-based solutions, ML pipelines, and full-stack fundamentals —
+        passionate about scalable, impactful technology.
+      </p>
+      <div class="contact-row">
+        <a class="contact-chip" href="mailto:rubasriravishankar@gmail.com">✉ rubasriravishankar@gmail.com</a>
+        <a class="contact-chip" href="tel:6369254208">☎ 6369254208</a>
+        <span class="contact-chip">📍 Chennai, Tamil Nadu</span>
+      </div>
+    </div>
+    <div class="avatar-box">RR</div>
+  </div>
+
+  <section>
+    <p class="section-label">Skills</p>
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="skill-dot"></span>Machine Learning</div>
+      <div class="skill-chip"><span class="skill-dot"></span>AI Programming</div>
+      <div class="skill-chip"><span class="skill-dot cyan"></span>Python</div>
+      <div class="skill-chip"><span class="skill-dot cyan"></span>NLP</div>
+      <div class="skill-chip"><span class="skill-dot cyan"></span>REST API</div>
+      <div class="skill-chip"><span class="skill-dot green"></span>SQL / Database</div>
+      <div class="skill-chip"><span class="skill-dot green"></span>HTML / CSS</div>
+      <div class="skill-chip"><span class="skill-dot green"></span>Java</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Spring Framework</div>
+      <div class="skill-chip"><span class="skill-dot cyan"></span>Message Queuing</div>
+      <div class="skill-chip"><span class="skill-dot green"></span>Build Tools</div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Projects</p>
+    <div class="projects-grid">
+      <div class="proj-card">
+        <div class="proj-icon">🔍</div>
+        <p class="proj-name">NLP Plagiarism Detector</p>
+        <p class="proj-desc">An NLP-based system for detecting plagiarism in academic and professional documents using text similarity algorithms.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">NLP</span>
+          <span class="proj-tag">Text Similarity</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">✍️</div>
+        <p class="proj-name">AI Handwritten Prediction</p>
+        <p class="proj-desc">A machine learning model to recognize and predict handwritten text with high accuracy using computer vision techniques.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">Computer Vision</span>
+          <span class="proj-tag">Deep Learning</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">🚢</div>
+        <p class="proj-name">Titanic Survival Prediction</p>
+        <p class="proj-desc">A classic ML classification project predicting passenger survival on the Titanic using feature engineering, data cleaning, and supervised learning models.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">Scikit-learn</span>
+          <span class="proj-tag">Pandas</span>
+          <span class="proj-tag">Classification</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Experience</p>
+    <div class="exp-card">
+      <div class="exp-header">
+        <div>
+          <p class="exp-title">Software Engineering Virtual Experience</p>
+          <p class="exp-org">J.P. Morgan Chase &amp; Co. — Forage</p>
+        </div>
+        <span class="exp-date">Sep 2025 – Feb 2026</span>
+      </div>
+      <p class="exp-desc">
+        Completed a virtual internship gaining hands-on experience in enterprise software engineering practices, backend development, and system design within a global financial technology environment.
+      </p>
+      <div class="tags">
+        <span class="tag">Java</span>
+        <span class="tag">Spring Framework</span>
+        <span class="tag">REST API</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Message Queuing</span>
+        <span class="tag">Build Tools</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Education</p>
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <div>
+        <p class="edu-degree">Bachelor of Technology</p>
+        <p class="edu-field">Artificial Intelligence &amp; Machine Learning</p>
+        <div class="edu-meta">
+          <span>Saveetha Engineering College</span>
+          <span>Sep 2024 – Present</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Beyond work</p>
+    <div class="hobbies-row">
+      <span class="hobby-pill">💻 Coding</span>
+      <span class="hobby-pill">🎵 Listening to Music</span>
+      <span class="hobby-pill">📺 American TV Shows</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built with care · Rubasri R · Chennai, India · 2026</p>
+  </footer>
+
+</div>
+</body>
+</html>
